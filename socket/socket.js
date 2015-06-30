@@ -31,7 +31,6 @@ module.exports = function(io, rooms) {
 			for(var i in get_users) {
 				users_list.push({username: get_users[i].username, profile_pic: get_users[i].profile_pic});
 			}
-			console.log(users_list);
 			socket.broadcast.to(data.room_number).emit("new_user", JSON.stringify(users_list));
 			socket.to(data.room_number).emit("new_user", JSON.stringify(users_list));
 		});

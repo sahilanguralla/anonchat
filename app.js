@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
 // detecting the environment
-var env = process.env.NODE_ENV || "production";
+var env = process.env.NODE_ENV || "development";
 if("development" === env) {
 	app.use(session({secret: config.sessionSecret}));
 } else {

@@ -45,7 +45,6 @@
           messages.emit('new_message', { room_number: roomNumber, message: this.value, username:username, profile_pic: profilePic });
           updateMessageFeed(username, profilePic, this.value, true);
           this.value = "";
-          console.log("Sent");
         }
       })
 
@@ -74,7 +73,6 @@
 
       messages.on("new_user", function(data) {
         var data = JSON.parse(data);
-        console.log(data);
         $("#user-feed").empty();
         for(var i in data) {
           var str = updateUserFeed(data[i].username, data[i].profile_pic);
