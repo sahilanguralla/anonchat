@@ -1,0 +1,23 @@
+.container {
+	
+}
+.text-center {
+	text-align: center !important;
+}
+.margin-top-5 {
+	margin-top: 5%;
+}
+.middle {
+	margin: 15% auto auto;
+}
+.chat-message {
+	background-color: #FFF;
+	box-shadow: 0px 0px 0px 1px rgba(39, 41, 43, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+	border-radius: 0.2857rem;
+	border: medium none;
+	padding: 0px !important;
+	margin: 20px;
+}
+.chat-message + .chat-message {
+	margin-top: 0px;
+}

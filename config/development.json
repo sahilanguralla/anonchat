@@ -1,0 +1,10 @@
+{
+	"dbURL": "mongodb://anonchat:anonchat@ds043982.mongolab.com:43982/anonchat",
+	"sessionSecret": "anJlKso239HjdabmxzPwue123B",
+	"fb": {
+		"appID": "927298020650338",
+		"appSecret": "b0b2bb91459b2bf7466e515b384bdc46",
+		"callbackURL": "http://localhost:3000/auth/facebook/callback"
+	},
+	"host": "http://localhost:3000"
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <!-- Site Properities -->
+  <title>{{ room_name }} | Chat Room | AnonChat - Vendetta's Chat Engine</title>
+
+  <meta name="description" content="A Multiroom Chat Server based on JS Frameworks" />
+  <meta name="keywords" content="html5, ui, library, framework, javascript" />
+    
+  <script type="text/javascript">
+  (function () {
+    var
+      eventSupport = ('querySelector' in document && 'addEventListener' in window)
+      jsonSupport  = (typeof JSON !== 'undefined'),
+      jQuery       = (eventSupport && jsonSupport)
+        ? '/js/library/jquery.min.js'
+        : '/js/library/jquery.legacy.min.js'
+    ;
+    document.write('<script src="' + jQuery + '"><\/script>');
+  }());
+  </script>
+
+  <script src="../js/semantic.min.js"></script>
+  <script src="../socket.io/socket.io.js"></script>
+  <script>
+    $(function() {
+      var host = "{{config.host}}";
+      var messages = io.connect(host + "/messages");
+      var roomNumber = {{ room_number }};
+      var username = "{{ user.fullName }}";
+      var profilePic = "{{ user.profilePic }}";
+
+      messages.on("connect", function() {
+        console.log('Connected to Server');
+        messages.emit('join_room', { room_number: roomNumber, username: username, profile_pic: profilePic });
+      });
+
+      $("#message-input").keydown(function(e) {
+        if("Enter" == e.key && "" != this.value) {
+          messages.emit('new_message', { room_number: roomNumber, message: this.value, username:username, profile_pic: profilePic });
+          updateMessageFeed(username, profilePic, this.value, true);
+          this.value = "";
+          console.log("Sent");
+        }
+      })
+
+      function updateMessageFeed(username, profilePic, message, you) {
+        if("undefined" == typeof you) {
+          you = false;
+        }
+        if(you) {
+          var pos = "left";
+        } else {
+          var pos = "right";
+        }
+        var str = '<div class="ui chat-message ' + pos + ' aligned ' + pos + ' floated ten wide column"><div class="ui comments"><div class="comment ' + pos + ' aligned ' + pos + ' floated ui grid"><div class="' + pos + ' floated two wide column"><a class="avatar"><img src="' + profilePic + '"></a></div><div class="fourteen wide column"><div class="content"><a class="author">' + username + '</a><div class="metadata"><div class="date"><!--2 days ago--></div></div><div class="text">' + message + '</div></div></div></div></div></div>';
+        $('#message-feed').prepend(str).hide().slideDown(100);
+      }
+
+      function updateUserFeed(username, profilePic) {
+        var str = '<div class="ui vertical segment"><img class="ui avatar image" src="' + profilePic + '">' + username + '</div>';
+        return str;
+      }
+
+      messages.on("new_message", function(data) {
+        var data = JSON.parse(data);
+        updateMessageFeed(data.username, data.profile_pic, data.message);
+      });
+
+      messages.on("new_user", function(data) {
+        var data = JSON.parse(data);
+        console.log(data);
+        $("#user-feed").empty();
+        for(var i in data) {
+          var str = updateUserFeed(data[i].username, data[i].profile_pic);
+          $('#user-feed').prepend(str).hide().slideDown(100);
+        }
+      })
+    });
+  </script>
+  <link rel="stylesheet" type="text/css" class="ui" href="../css/semantic.min.css">
+
+  <link rel="stylesheet" type="text/css" href="../css/custom.css">
+</head>
+<body>
+  <div class="container margin-top-5">
+    <div class="ui centered page grid">
+      <div class="sixteen wide column">
+        <div class="ui pilled segment">
+          <div class="ui vertical segment">
+            <h1 class="ui header">
+              <i class="comments icon"></i>
+              <div class="content">
+                AnonChat
+              </div>
+            </h1>
+          </div>
+          <div class="ui vertical segment">
+            <div class="ui horizontal segment">
+              <h3 class="ui header">
+                <img src="{{ user.profilePic }}" class="ui circular image">
+                {{ user.fullName }}
+                <a href="/logout" class="large ui button right floated">
+                  Logout
+                </a>
+                <a href="/chatrooms" class="large ui button right floated">
+                  More Chatrooms
+                </a>
+              </h3>
+            </div>
+          </div>
+          <div class="ui vertical segment grid">
+            <div class="ten wide column">
+              <div id="message-feed" class="ui segment grid">
+              </div>
+            </div>
+            <div class="six wide column">
+              <div class="ui green segment one column grid">
+                <div id="user-feed" class="column">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="one column grid">
+            <div class="column">
+              <div class="ui fluid input">
+                <input id="message-input" placeholder='Type your message and press "Enter"...' type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
