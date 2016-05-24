@@ -1,5 +1,5 @@
 {
-	"dbURL": "mongodb://anonchat:anonchat@ds043982.mongolab.com:43982/anonchat",
+	"dbURL": "mongodb://anonchat:anonchat@ds043982.mlab.com:43982/anonchat",
 	"sessionSecret": "anJlKso239HjdabmxzPwue123B",
 	"fb": {
 		"appID": "927298020650338",
