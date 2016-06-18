@@ -26,10 +26,10 @@ $(function() {
     $("#room-list").empty();
     $.each(rooms, function() {
       var room = $('<div class="item"><i class="ui avatar image comments outline icon"></i><div class="content"><a class="header"></a></div></div>');
-      var holder = room.filter("a");
+      var holder = room.find("a");
       holder.href('room/' + this.room_number);
       holder.text(this.room_name);
-      $("#room-list").prepend(holder);
+      $("#room-list").prepend(room);
     });
   })
 });
