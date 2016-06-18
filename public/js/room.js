@@ -36,7 +36,7 @@ $(function() {
     str.find(".author").text(username);
     str.find(".message-area").text(message);
     $('#message-feed').prepend(str).hide().slideDown(100);
-    str.find(".avatar").html('<img src="' + profilePic +'" />');
+    str.find(".avatar").html('<img src="' + $("<div>").text(profilePic).html() +'" />');
   }
 
   function updateUserFeed(username, profilePic) {
