@@ -8,9 +8,12 @@ module.exports = function(passport, FacebookStrategy, config, mongoose) {
 	});
 	var User = mongoose.model("users", userSchema);
 
+	// User storage in session
 	passport.serializeUser(function(user, done) {
 		done(null, user.id);
 	});
+
+	// User identification from session
 	passport.deserializeUser(function(id, done) {
 		User.findById(id, function(err, user) {
 			done(null, user);

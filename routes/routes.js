@@ -40,13 +40,9 @@ module.exports = function(express, app, passport, config, rooms) {
 		res.render('room', { user: req.user, room_number:req.params.id, room_name: room_name, config:config });
 	});
 
-	router.get('/set', function(req, res, next) {
-		req.session.temp = "true";
-		res.send("Session created successfully!");
-	});
-
-	router.get('/get', function(req, res, next) {
-		res.send("Current Session: " + (typeof req.session.temp == "undefined" ? "Not Set" : req.session.temp));
+	router.get('/logout', function(req, res, next) {
+		req.logout();
+		res.redirect("/");
 	});
 
 	app.use('/', router);
