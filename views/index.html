@@ -12,18 +12,7 @@
   <meta name="description" content="A Multiroom Chat Server based on JS Frameworks" />
   <meta name="keywords" content="html5, ui, library, framework, javascript" />
     
-  <script type="text/javascript">
-  (function () {
-    var
-      eventSupport = ('querySelector' in document && 'addEventListener' in window)
-      jsonSupport  = (typeof JSON !== 'undefined'),
-      jQuery       = (eventSupport && jsonSupport)
-        ? '/js/library/jquery.min.js'
-        : '/js/library/jquery.legacy.min.js'
-    ;
-    document.write('<script src="' + jQuery + '"><\/script>');
-  }());
-  </script>
+  <script type="text/javascript" src="../js/support.js"></script>
 
 
   <script src="../js/semantic.min.js"></script>

@@ -12,53 +12,11 @@
   <meta name="description" content="A Multiroom Chat Server based on JS Frameworks" />
   <meta name="keywords" content="html5, ui, library, framework, javascript" />
     
-  <script type="text/javascript">
-  (function () {
-    var
-      eventSupport = ('querySelector' in document && 'addEventListener' in window)
-      jsonSupport  = (typeof JSON !== 'undefined'),
-      jQuery       = (eventSupport && jsonSupport)
-        ? '/js/library/jquery.min.js'
-        : '/js/library/jquery.legacy.min.js'
-    ;
-    document.write('<script src="' + jQuery + '"><\/script>');
-  }());
-  </script>
+  <script type="text/javascript" src="../js/support.js"></script>
 
   <script src="../js/semantic.min.js"></script>
   <script src="../socket.io/socket.io.js"></script>
-  <script type="text/javascript">
-    $(function() {
-      var host = '{{config.host}}';
-      var socket = io.connect(host + '/roomlist');
-
-      socket.on('connect', function() {
-        console.log('Connected to Server');
-      });
-
-      $("#create").on("click", function() {
-        var room_name = $('#room-name');
-        if('' != room_name) {
-          socket.emit("new_room", {room_name: room_name.val()});
-          room_name.val("");
-        }
-      });
-      $("#room-name").keydown(function(e) {
-        if("Enter" == e.key) {
-          $('#create').click();
-        }
-      });
-
-      socket.on("room_update", function(data) {
-        var rooms = JSON.parse(data);
-        $("#room-list").empty();
-        $.each(rooms, function() {
-          var str = '<div class="item"><i class="ui avatar image comments outline icon"></i><div class="content"><a href="room/' + this.room_number + '" class="header">' + this.room_name + '</a></div></div>';
-          $("#room-list").prepend(str);
-        });
-      })
-    });
-  </script>
+  <script type="text/javascript" src="../js/chatroom.js"></script>
   <link rel="stylesheet" type="text/css" class="ui" href="../css/semantic.min.css">
 
   <link rel="stylesheet" type="text/css" href="../css/custom.css">
