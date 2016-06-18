@@ -21,3 +21,8 @@
 .chat-message + .chat-message {
 	margin-top: 0px;
 }
+
+#message-feed {
+	max-height: 50vh;
+	overflow-y: scroll;
+}
