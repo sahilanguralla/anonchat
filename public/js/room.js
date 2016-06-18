@@ -1,13 +1,5 @@
 $(function() {
-  var host = "{{config.host}}";
   var messages = io.connect(host + "/messages");
-  var roomNumber = {
-    {
-      room_number
-    }
-  };
-  var username = "{{ user.fullName }}";
-  var profilePic = "{{ user.profilePic }}";
 
   messages.on("connect", function() {
     console.log('Connected to Server');
@@ -40,7 +32,10 @@ $(function() {
     } else {
       var pos = "right";
     }
-    var str = '<div class="ui chat-message ' + pos + ' aligned ' + pos + ' floated ten wide column"><div class="ui comments"><div class="comment ' + pos + ' aligned ' + pos + ' floated ui grid"><div class="' + pos + ' floated two wide column"><a class="avatar"><img src="' + profilePic + '"></a></div><div class="fourteen wide column"><div class="content"><a class="author">' + username + '</a><div class="metadata"><div class="date"><!--2 days ago--></div></div><div class="text">' + message + '</div></div></div></div></div></div>';
+    var str = $('<div class="ui chat-message ' + pos + ' aligned ' + pos + ' floated ten wide column"><div class="ui comments"><div class="comment ' + pos + ' aligned ' + pos + ' floated ui grid"><div class="' + pos + ' floated two wide column"><a class="avatar"><img src="' + profilePic + '"></a></div><div class="fourteen wide column"><div class="content"><a class="author">' + username + '</a><div class="metadata"><div class="date"><!--2 days ago--></div></div><div class="text message-area">' + message + '</div></div></div></div></div></div>');
+    str.find("img").attr("src", profilePic);
+    str.find(".author").text(username);
+    str.find(".message-area").text(message);
     $('#message-feed').prepend(str).hide().slideDown(100);
   }
 
