@@ -32,7 +32,7 @@ $(function() {
     } else {
       var pos = "right";
     }
-    var str = $('<div class="ui chat-message ' + pos + ' aligned ' + pos + ' floated ten wide column"><div class="ui comments"><div class="comment ' + pos + ' aligned ' + pos + ' floated ui grid"><div class="' + pos + ' floated two wide column"><a class="avatar"><img /></a></div><div class="fourteen wide column"><div class="content"><a class="author"></a><div class="metadata"><div class="date"><!--2 days ago--></div></div><div class="text message-area"></div></div></div></div></div></div>');
+    var str = $('<div class="ui chat-message ' + pos + ' aligned ' + pos + ' floated ten wide column"><div class="ui comments"><div class="comment ' + pos + ' aligned ' + pos + ' floated ui grid"><div class="' + pos + ' floated two wide column"><a class="avatar"><img onError="this.onerror=null;this.src=this.src+\'#\'"/></a></div><div class="fourteen wide column"><div class="content"><a class="author"></a><div class="metadata"><div class="date"><!--2 days ago--></div></div><div class="text message-area"></div></div></div></div></div></div>');
     str.find(".author").text(username);
     str.find(".message-area").text(message);
     $('#message-feed').prepend(str).hide().slideDown(100);
