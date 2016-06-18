@@ -1,5 +1,4 @@
 $(function() {
-  var host = '{{config.host}}';
   var socket = io.connect(host + '/roomlist');
 
   socket.on('connect', function() {
