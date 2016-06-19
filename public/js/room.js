@@ -15,6 +15,7 @@ $(function() {
     if ("Enter" == e.key && "" != this.value) {
       messages.emit('new_message', {
         room_number: roomNumber,
+        user_id: user_id,
         message: this.value,
         username: username,
         profile_pic: profilePic
@@ -44,7 +45,9 @@ $(function() {
 
   messages.on("new_message", function(data) {
     var data = JSON.parse(data);
-    updateMessageFeed(data.username, data.profile_pic, data.message);
+    data.forEach(function(message_obj) {
+      updateMessageFeed(message_obj.username, message_obj.profile_pic, message_obj.message);
+    })
   });
 
   messages.on("new_user", function(data) {

@@ -51,6 +51,7 @@ module.exports = function(io, models, utils) {
 			socket.to(data.room_number).emit("new_user", JSON.stringify(users_list));
 			
 			Room.findById(data.room_number, function(err, room) {
+				console.log("Room found:", room);
 				socket.to(data.room_number).emit("new_message", JSON.stringify(room.messages));
 			});
 		});
@@ -61,7 +62,8 @@ module.exports = function(io, models, utils) {
 						"messages": {
 							user_id: data.user_id,
 							username: data.username,
-							profile_pic: data.profile_pic
+							profile_pic: data.profile_pic,
+							message: data.message
 						}
 					}
 				}, {
