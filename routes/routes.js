@@ -1,4 +1,4 @@
-module.exports = function(express, app, passport, config, model) {
+module.exports = function(express, app, passport, config, models) {
 	var router = express.Router();
 
 	function authFilter(req, res, next) {
