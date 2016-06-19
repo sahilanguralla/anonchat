@@ -1,7 +1,7 @@
 module.exports = function(io, models, utils) {
+	var Room = models.Room;
 	var chatrooms = io.of('/roomlist').on('connection', function(socket) {
 		console.log('Socket Connection established on Server Side!');
-		var Room = models.Room;
 		Room.find({}).sort({
 			id: -1
 		}).exec(function(err, rooms) {
