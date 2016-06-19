@@ -26,6 +26,7 @@ module.exports = function(io, models, utils) {
 		socket.on('join_room', function(data) {
 
 			//if user isn't already member
+			socket.user_id = data.user_id;
 			socket.username = data.username;
 			socket.profile_pic = data.profile_pic;
 			socket.join(data.room_number);
@@ -44,7 +45,7 @@ module.exports = function(io, models, utils) {
 			}
 			// remove multiple sessions of same user to prevent repetition in list
 			users_list = utils.unique(users_list, function(user1, user2) {
-				return user1.name > user2.name;
+				return user1.user_id > user2.user_id;
 			});
 
 			socket.broadcast.to(data.room_number).emit("new_user", JSON.stringify(users_list));
