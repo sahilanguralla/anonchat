@@ -8,7 +8,7 @@ module.exports = function(passport, FacebookStrategy, config, models) {
 
 	// User identification from session
 	passport.deserializeUser(function(id, done) {
-		console.log(User);
+		console.log(User.findById);
 		User.findById(id, function(err, user) {
 			done(null, user);
 		});
