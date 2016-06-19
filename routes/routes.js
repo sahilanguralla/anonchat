@@ -1,4 +1,4 @@
-module.exports = function(express, app, passport, config, rooms) {
+module.exports = function(express, app, passport, config, model) {
 	var router = express.Router();
 
 	function authFilter(req, res, next) {
@@ -27,17 +27,14 @@ module.exports = function(express, app, passport, config, rooms) {
 		});
 	});
 
-	function getRoomName(room_number) {
-		for(var i = 0; i < rooms.length; i++) {
-			if(rooms[i].room_number == room_number) {
-				return rooms[i].room_name;
-			}
-		}
+	function getRoom(room_id, callback) {
+		models.Room.findById(room_id, callback);
 	}
 
 	router.get('/room/:id', authFilter, function(req, res, next) {
-		var room_name = getRoomName(req.params.id);
-		res.render('room', { user: req.user, room_number:req.params.id, room_name: room_name, config:config });
+		getRoom(req.params.id, function() {
+			res.render('room', { user: req.user, room_number:req.params.id, room_name: room.room_name, config:config });
+		});
 	});
 
 	router.get('/logout', function(req, res, next) {

@@ -44,7 +44,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // including the routes module
-require('./routes/routes.js')(express, app, passport, config, rooms);
+require('./routes/routes.js')(express, app, passport, config, models);
 
 app.set('port', process.env.PORT || 3000);
 var server = require('http').createServer(app);
