@@ -32,7 +32,10 @@ module.exports = function(express, app, passport, config, models) {
 	}
 
 	router.get('/room/:id', authFilter, function(req, res, next) {
-		getRoom(req.params.id, function() {
+		getRoom(req.params.id, function(err, room) {
+			if(err) {
+				res.redirect('/chatrooms');
+			}
 			res.render('room', { user: req.user, room_number:req.params.id, room_name: room.room_name, config:config });
 		});
 	});
