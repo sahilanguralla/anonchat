@@ -1,4 +1,7 @@
+
 $(function() {
+  
+  var isPushEnabled = false;
   // Registering Service Worker
   var pushButton = $('#push-notification-toggler');
   pushButton.click(function() {
