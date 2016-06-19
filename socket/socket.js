@@ -2,7 +2,7 @@ module.exports = function(io, models) {
 	var chatrooms = io.of('/roomlist').on('connection', function(socket) {
 		console.log('Socket Connection established on Server Side!');
 		var Room = models.Room;
-		Room.find({}).exec(function(err, rooms) {
+		Room.find({}).sort({_id:-1}).exec(function(err, rooms) {
 			console.log("emmiting back all rooms", rooms);
 			socket.emit('room_update', JSON.stringify(rooms));
 		});
@@ -10,7 +10,7 @@ module.exports = function(io, models) {
 			new Room({
 				room_name: data.room_name
 			}).save(function() {
-				Room.find().sort({id: -1}).exec(function(rooms) {
+				Room.find({}).sort({_id: -1}).exec(function(err, rooms) {
 					socket.broadcast.emit('room_update', JSON.stringify(rooms));
 					socket.emit('room_update', JSON.stringify(rooms));
 				});

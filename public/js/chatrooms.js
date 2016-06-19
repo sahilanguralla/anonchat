@@ -26,7 +26,7 @@ $(function() {
     $.each(rooms, function() {
       var room = $('<div class="item"><i class="ui avatar image comments outline icon"></i><div class="content"><a class="header"></a></div></div>');
       var holder = room.find("a");
-      holder.attr("href", 'room/' + this.room_number);
+      holder.attr("href", 'room/' + this._id);
       holder.text(this.room_name);
       $("#room-list").prepend(room);
     });
