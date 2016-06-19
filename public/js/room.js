@@ -32,7 +32,7 @@ $(function() {
     } else {
       var pos = "right";
     }
-    var str = '<div class="ui chat-message ' + pos + ' aligned ' + pos + ' floated ten wide column"><div class="ui comments"><div class="comment ' + pos + ' aligned ' + pos + ' floated ui grid"><div class="' + pos + ' floated two wide column"><a class="avatar"><img src="' + profilePic + '"></a></div><div class="fourteen wide column"><div class="content"><a class="author">' + $("<div>").text(username).html() + '</a><div class="metadata"><div class="date"><!--2 days ago--></div></div><div class="text">' + $("<div>").text(message).html() + '</div></div></div></div></div></div>';
+    var str = '<div class="ui chat-message ' + pos + ' aligned ' + pos + ' floated ten wide column"><div class="ui comments"><div class="comment ' + pos + ' aligned ' + pos + ' floated ui grid"><div class="' + pos + ' floated three wide column"><a class="avatar"><img src="' + profilePic + '"></a></div><div class="thirteen wide column"><div class="content"><a class="author">' + $("<div>").text(username).html() + '</a><div class="metadata"><div class="date"><!--2 days ago--></div></div><div class="text">' + $("<div>").text(message).html() + '</div></div></div></div></div></div>';
     $('#message-feed').prepend(str).hide().slideDown(100);
   }
 
@@ -55,22 +55,35 @@ $(function() {
     }
   })
 
+  $(document)
+    .ready(function() {
+      var $toggle = $('.ui.toggle.button');
+      $toggle
+        .state({
+          text: {
+            inactive: $toggle.data('inactive'),
+            active: $toggle.data('active')
+          }
+        });
+
+    });
+
   // Registering Service Worker
-  var pushButton = $('.js-push-button');  
-  pushButton.click(function() {  
-    if (isPushEnabled) {  
-      unsubscribe();  
-    } else {  
-      subscribe();  
-    }  
+  var pushButton = $('.js-push-button');
+  pushButton.click(function() {
+    if (isPushEnabled) {
+      unsubscribe();
+    } else {
+      subscribe();
+    }
   });
 
   // Check that service workers are supported, if so, progressively  
   // enhance and add push messaging support, otherwise continue without it.  
-  if ('serviceWorker' in navigator) {  
-    navigator.serviceWorker.register('/service-worker.js')  
-    .then(initialiseState);  
-  } else {  
-    console.warn('Service workers aren\'t supported in this browser.');  
-  }  
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(initialiseState);
+  } else {
+    console.warn('Service workers aren\'t supported in this browser.');
+  }
 });

@@ -20,5 +20,5 @@
       }],  
   "start_url": "/",  
   "display": "standalone",  
-  "gcm_sender_id": "<Your Project ID Without the Hash>"
+  "gcm_sender_id": "670184061628"
 }
