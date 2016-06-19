@@ -69,7 +69,7 @@ $(function() {
     });
 
   // Registering Service Worker
-  var pushButton = $('.js-push-button');
+  var pushButton = $('push-notification-toggler');
   pushButton.click(function() {
     if (isPushEnabled) {
       unsubscribe();
@@ -81,7 +81,7 @@ $(function() {
   // Check that service workers are supported, if so, progressively  
   // enhance and add push messaging support, otherwise continue without it.  
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
+    navigator.serviceWorker.register('../js/sw.js')
       .then(initialiseState);
   } else {
     console.warn('Service workers aren\'t supported in this browser.');
