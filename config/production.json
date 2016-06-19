@@ -4,7 +4,7 @@
 	"fb": {
 		"appID": "927298020650338",
 		"appSecret": "b0b2bb91459b2bf7466e515b384bdc46",
-		"callbackURL": "http://tbt-anonchat.herokuapp.com/auth/facebook/callback"
+		"callbackURL": "https://tbt-anonchat.herokuapp.com/auth/facebook/callback"
 	},
 	"host": "tbt-anonchat.herokuapp.com"
 }
