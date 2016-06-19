@@ -5,7 +5,7 @@ $(function() {
   // Registering Service Worker
   var pushButton = $('#push-notification-toggler');
   pushButton.click(function() {
-    console.log("button clicked");
+    console.log("button clicked and isPushEnabled", isPushEnabled);
     if (isPushEnabled) {
       unsubscribe();
     } else {
@@ -51,7 +51,7 @@ $(function() {
         .then(function(subscription) {
           // Enable any UI which subscribes / unsubscribes from  
           // push messages.  
-          var pushButton = $('#push-notification-toggler');
+          // var pushButton = $('#push-notification-toggler');
           // pushButton.disabled = false;
 
           if (!subscription) {
@@ -75,9 +75,10 @@ $(function() {
   }
 
   function subscribe() {
+    console.log("started subscribing", isPushEnabled);
     // Disable the button so it can't be changed while  
     // we process the permission request  
-    var pushButton = $('#push-notification-toggler');
+    // var pushButton = $('#push-notification-toggler');
     // pushButton.disabled = true;
 
     navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
@@ -87,7 +88,7 @@ $(function() {
           isPushEnabled = true;
           // pushButton.textContent = 'Disable Push Messages';
           // pushButton.disabled = false;
-
+          console.log("done subscribing", subscription);;
           // TODO: Send the subscription.endpoint to your server  
           // and save it to send a push message at a later date
           return sendSubscriptionToServer(subscription);
