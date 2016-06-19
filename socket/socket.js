@@ -72,7 +72,7 @@ module.exports = function(io, models, utils) {
 				},
 				function(err, room) {
 					if (!err && room) {
-						socket.broadcast.to(data.room_number).emit("new_message", JSON.stringify(data));
+						socket.broadcast.to(data.room_number).emit("new_message", JSON.stringify([data]));
 					} else {
 						socket.to(data.room_number).emit("error", {
 							"type": "new_message",
