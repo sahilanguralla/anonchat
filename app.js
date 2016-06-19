@@ -36,8 +36,9 @@ if("development" === env) {
 	}));
 }
 
+var models = require('./models/models.js')(mongoose);
 // including facebook authentication
-require('./auth/passportAuth.js')(passport, FacebookStrategy, config, mongoose);
+require('./auth/passportAuth.js')(passport, FacebookStrategy, config, models);
 
 app.use(passport.initialize());
 app.use(passport.session());

@@ -1,12 +1,5 @@
-module.exports = function(passport, FacebookStrategy, config, mongoose) {
-	// Schema designing
-	var userSchema = mongoose.Schema({
-		profileID: String,
-		fullName: String,
-		email: String,
-		profilePic: String
-	});
-	var User = mongoose.model("users", userSchema);
+module.exports = function(passport, FacebookStrategy, config, models) {
+	var User = models.User;
 
 	// User storage in session
 	passport.serializeUser(function(user, done) {

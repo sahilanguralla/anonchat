@@ -1,22 +1,25 @@
-module.exports = function(io, rooms) {
+module.exports = function(io, models) {
 	var chatrooms = io.of('/roomlist').on('connection', function(socket) {
 		console.log('Socket Connection established on Server Side!');
-		socket.emit('room_update', JSON.stringify(rooms));
-		socket.on('new_room', function(data) {
-			while(true) {				
-				data.room_number = rooms.length + 1;
-				var unique = true;
-				for(var i = 0; i < rooms.length; i++) {
-					if(data.room_number == rooms[i].room_number) {
-						unique = false;
-					}
-				}
-				if(unique) break;
-			}
-			rooms.push(data);
-			socket.broadcast.emit('room_update', JSON.stringify(rooms));
+		var Room = models.Room;
+		Room.find().sort({id: -1}).exec(function(rooms) {
 			socket.emit('room_update', JSON.stringify(rooms));
-		});
+			socket.on('new_room', function(data) {
+				while(true) {				
+					data.room_number = rooms.length + 1;
+					var unique = true;
+					for(var i = 0; i < rooms.length; i++) {
+						if(data.room_number == rooms[i].room_number) {
+							unique = false;
+						}
+					}
+					if(unique) break;
+				}
+				rooms.push(data);
+				socket.broadcast.emit('room_update', JSON.stringify(rooms));
+				socket.emit('room_update', JSON.stringify(rooms));
+			});
+		})
 	});
 	var messages = io.of('/messages').on('connection', function(socket) {
 		console.log('Socket Connection established on Server Side!');
