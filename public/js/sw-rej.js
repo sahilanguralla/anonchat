@@ -135,9 +135,7 @@ $(function() {
           }
 
           var subscriptionId = pushSubscription.subscriptionId;
-          // TODO: Make a request to your server to remove  
-          // the subscriptionId from your data store so you
-          // don't attempt to send them push messages anymore
+          sendUnsubscriptionToServer();
 
           // We have a subscription, so call unsubscribe on it  
           pushSubscription.unsubscribe().then(function(successful) {
@@ -152,7 +150,7 @@ $(function() {
 
             console.log('Unsubscription error: ', e);
             // pushButton.disabled = false;
-            pushButton.textContent = 'Enable Push Messages';
+            // pushButton.textContent = 'Enable Push Messages';
           });
         }).catch(function(e) {
         console.error('Error thrown while unsubscribing from push messaging.', e);
@@ -162,5 +160,8 @@ $(function() {
 
   function sendSubscriptionToServer(subscription) {
     console.log("sending subscription to server", subscription);
+  }
+  function sendUnsubscriptionToServer(subscription) {
+    console.log("sending unsubscription to server", subscription);
   }
 });
