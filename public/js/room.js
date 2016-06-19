@@ -46,7 +46,7 @@ $(function() {
   messages.on("new_message", function(data) {
     var data = JSON.parse(data);
     data.forEach(function(message_obj) {
-      updateMessageFeed(message_obj.username, message_obj.profile_pic, message_obj.message);
+      updateMessageFeed(message_obj.username, message_obj.profile_pic, message_obj.message, message_obj.user_id == user_id);
     })
   });
 
