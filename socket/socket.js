@@ -19,11 +19,12 @@ module.exports = function(io, models) {
 	});
 	var messages = io.of('/messages').on('connection', function(socket) {
 		console.log('Socket Connection established on Server Side!');
+		var Room = models.Room;
 		socket.on('join_room', function(data) {
 	        console.log("received room join request", data);
 			Room.findOne({'users': {$elemMatch: {id: data.user_id}}}, function (err, user) {
 		        console.log("found user in room", err, user);
-				models.Room.findByIdAndUpdate(
+				Room.findByIdAndUpdate(
 				    data.room_number,
 				    {$push: {"users": {id: data.user_id, username: data.username, profile_pic: data.profile_pic }}},
 				    {safe: true, upsert: true},
