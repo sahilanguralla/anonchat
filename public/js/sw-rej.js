@@ -66,6 +66,7 @@ $(function() {
           // Set your UI to show they have subscribed for  
           // push messages  
           // pushButton.textContent = 'Disable Push Messages';
+          pushButton.state('activate');
           isPushEnabled = true;
         })
         .catch(function(err) {
