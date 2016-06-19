@@ -12,7 +12,8 @@ module.exports = function(mongoose) {
 		Room: function() {
 			var roomSchema = mongoose.Schema({
 				room_name: String,
-				users: Array
+				users: Array,
+				messages: Array
 			});
 			return mongoose.model("rooms", roomSchema);
 		}(),

@@ -8,10 +8,11 @@ var express = require('express'),
 	mongoose = require('mongoose').connect(config.dbURL),
 	passport = require('passport'),
 	FacebookStrategy = require('passport-facebook').Strategy,
-	rooms = [{
-		room_name: "Test Room",
-		room_number: 0
-	}];
+	utils = require('./modules/utils.js');
+	// rooms = [{
+	// 	room_name: "Test Room",
+	// 	room_number: 0
+	// }];
 
 // setting the default paths and rendering engine
 app.set('views', path.join(__dirname, 'views'));
