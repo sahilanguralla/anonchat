@@ -49,7 +49,7 @@ require('./routes/routes.js')(express, app, passport, config, models);
 
 app.set('port', process.env.PORT || 3000);
 var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(server, utils);
 require('./socket/socket.js')(io, models);
 
 server.listen(app.get('port'), function() {
