@@ -82,7 +82,7 @@ $(function() {
     // pushButton.disabled = true;
 
     navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-      serviceWorkerRegistration.pushManager.subscribe()
+      serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly:true})
         .then(function(subscription) {
           // The subscription was successful  
           isPushEnabled = true;
