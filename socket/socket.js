@@ -2,7 +2,7 @@ module.exports = function(io, models) {
 	var chatrooms = io.of('/roomlist').on('connection', function(socket) {
 		console.log('Socket Connection established on Server Side!');
 		var Room = models.Room;
-		Room.find({}).exec(function(rooms) {
+		Room.find({}).exec(function(err, rooms) {
 			console.log("emmiting back all rooms", rooms);
 			socket.emit('room_update', JSON.stringify(rooms));
 		});
