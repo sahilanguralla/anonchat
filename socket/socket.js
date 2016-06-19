@@ -3,6 +3,7 @@ module.exports = function(io, models) {
 		console.log('Socket Connection established on Server Side!');
 		var Room = models.Room;
 		Room.find().sort({id: -1}).exec(function(rooms) {
+			console.log("emmiting back all rooms", rooms);
 			socket.emit('room_update', JSON.stringify(rooms));
 		});
 		socket.on('new_room', function(data) {
