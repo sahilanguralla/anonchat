@@ -94,20 +94,20 @@ $(function() {
           return sendSubscriptionToServer(subscription);
         })
         .catch(function(e) {
+          pushButton.toggle();
           if (Notification.permission === 'denied') {
             // The user denied the notification permission which  
             // means we failed to subscribe and the user will need  
             // to manually change the notification permission to  
             // subscribe to push messages  
             console.warn('Permission for Notifications was denied');
-            // pushButton.disabled = true;
           } else {
             // A problem occurred with the subscription; common reasons  
             // include network errors, and lacking gcm_sender_id and/or  
             // gcm_user_visible_only in the manifest.  
             console.error('Unable to subscribe to push.', e);
             // pushButton.disabled = false;
-            pushButton.textContent = 'Enable Push Messages';
+            // pushButton.textContent = 'Enable Push Messages';
           }
         });
     });
