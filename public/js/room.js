@@ -5,6 +5,7 @@ $(function() {
     console.log('Connected to Server');
     messages.emit('join_room', {
       room_number: roomNumber,
+      user_id: user_id,
       username: username,
       profile_pic: profilePic
     });
