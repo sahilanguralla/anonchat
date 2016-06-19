@@ -114,7 +114,7 @@ $(function() {
   }
 
   function unsubscribe() {
-    console.log("started subscribing", isPushEnabled);
+    console.log("started unsubscribing", isPushEnabled);
     var pushButton = document.querySelector('#push-notification-toggler');
     // pushButton.disabled = true;
 
@@ -135,7 +135,7 @@ $(function() {
           }
 
           var subscriptionId = pushSubscription.subscriptionId;
-          sendUnsubscriptionToServer();
+          sendUnsubscriptionToServer(pushSubscription);
 
           // We have a subscription, so call unsubscribe on it  
           pushSubscription.unsubscribe().then(function(successful) {
