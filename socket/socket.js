@@ -46,10 +46,13 @@ module.exports = function(io, models, utils) {
 			users_list = utils.unique(users_list, function(user1, user2) {
 				return user1.name > user2.name;
 			});
-			
+
 			socket.broadcast.to(data.room_number).emit("new_user", JSON.stringify(users_list));
 			socket.to(data.room_number).emit("new_user", JSON.stringify(users_list));
-			socket.to(data.room_number).emit("new_message", JSON.stringify(room.messages));
+			
+			Room.findById(data.room_number, function(err, room) {
+				socket.to(data.room_number).emit("new_message", JSON.stringify(room.messages));
+			});
 		});
 		socket.on('new_message', function(data) {
 			Room.findByIdAndUpdate(
