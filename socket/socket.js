@@ -20,7 +20,7 @@ module.exports = function(io, models) {
 	var messages = io.of('/messages').on('connection', function(socket) {
 		console.log('Socket Connection established on Server Side!');
 		socket.on('join_room', function(data) {
-	        console.log("found user in room", err, user);
+	        console.log("received room join request", data);
 			Room.findOne({'users': {$elemMatch: {id: data.user_id}}}, function (err, user) {
 		        console.log("found user in room", err, user);
 				models.Room.findByIdAndUpdate(
