@@ -94,7 +94,7 @@ $(function() {
           return sendSubscriptionToServer(subscription);
         })
         .catch(function(e) {
-          pushButton.toggle();
+          pushButton.state().toggle();
           if (Notification.permission === 'denied') {
             // The user denied the notification permission which  
             // means we failed to subscribe and the user will need  
@@ -158,5 +158,9 @@ $(function() {
         console.error('Error thrown while unsubscribing from push messaging.', e);
       });
     });
+  }
+
+  function sendSubscriptionToServer(subscription) {
+    console.log("sending subscription to server", subscription);
   }
 });
