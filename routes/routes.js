@@ -33,10 +33,11 @@ module.exports = function(express, app, passport, config, models) {
 
 	router.get('/room/:id', authFilter, function(req, res, next) {
 		getRoom(req.params.id, function(err, room) {
-			if(err) {
+			if(err && !room) {
 				res.redirect('/chatrooms');
+			} else {
+				res.render('room', { user: req.user, room_number:req.params.id, room_name: room.room_name, config:config });
 			}
-			res.render('room', { user: req.user, room_number:req.params.id, room_name: room.room_name, config:config });
 		});
 	});
 
