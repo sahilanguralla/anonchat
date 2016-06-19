@@ -1,7 +1,8 @@
 $(function() {
   // Registering Service Worker
-  var pushButton = $('push-notification-toggler');
+  var pushButton = $('#push-notification-toggler');
   pushButton.click(function() {
+    console.log("button clicked");
     if (isPushEnabled) {
       unsubscribe();
     } else {
