@@ -1,106 +1,72 @@
-// Once the service worker is registered set the initial state  
-function initialiseState() {  
-  // Are Notifications supported in the service worker?  
-  if (!('showNotification' in ServiceWorkerRegistration.prototype)) {  
-    console.warn('Notifications aren\'t supported.');  
-    return;  
-  }
-
-  // Check the current Notification permission.  
-  // If its denied, it's a permanent block until the  
-  // user changes the permission  
-  if (Notification.permission === 'denied') {  
-    console.warn('The user has blocked notifications.');  
-    return;  
-  }
-
-  // Check if push messaging is supported  
-  if (!('PushManager' in window)) {  
-    console.warn('Push messaging isn\'t supported.');  
-    return;  
-  }
-
-  // We need the service worker registration to check for a subscription  
-  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {  
-    // Do we already have a push message subscription?  
-    serviceWorkerRegistration.pushManager.getSubscription()  
-      .then(function(subscription) {  
-        // Enable any UI which subscribes / unsubscribes from  
-        // push messages.  
-        var pushButton = $('#push-notification-toggler');  
-        // pushButton.disabled = false;
-
-        if (!subscription) {  
-          // We aren't subscribed to push, so set UI  
-          // to allow the user to enable push  
-          return;  
-        }
-
-        // Keep your server in sync with the latest subscriptionId
-        sendSubscriptionToServer(subscription);
-
-        // Set your UI to show they have subscribed for  
-        // push messages  
-        pushButton.textContent = 'Disable Push Messages';  
-        isPushEnabled = true;  
-      })  
-      .catch(function(err) {  
-        console.warn('Error during getSubscription()', err);  
-      });  
-  });  
-}
-
-function subscribe() {  
-  // Disable the button so it can't be changed while  
-  // we process the permission request  
-  var pushButton = $('#push-notification-toggler');  
-  // pushButton.disabled = true;
-
-  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {  
-    serviceWorkerRegistration.pushManager.subscribe()  
-      .then(function(subscription) {  
-        // The subscription was successful  
-        isPushEnabled = true;  
-        pushButton.textContent = 'Disable Push Messages';  
-        pushButton.disabled = false;
-
-        // TODO: Send the subscription.endpoint to your server  
-        // and save it to send a push message at a later date
-        return sendSubscriptionToServer(subscription);  
-      })  
-      .catch(function(e) {  
-        if (Notification.permission === 'denied') {  
-          // The user denied the notification permission which  
-          // means we failed to subscribe and the user will need  
-          // to manually change the notification permission to  
-          // subscribe to push messages  
-          console.warn('Permission for Notifications was denied');  
-          pushButton.disabled = true;  
-        } else {  
-          // A problem occurred with the subscription; common reasons  
-          // include network errors, and lacking gcm_sender_id and/or  
-          // gcm_user_visible_only in the manifest.  
-          console.error('Unable to subscribe to push.', e);  
-          pushButton.disabled = false;  
-          pushButton.textContent = 'Enable Push Messages';  
-        }  
-      });  
-  });  
-}
-
 self.addEventListener('push', function(event) {  
-  console.log('Received a push message', event);
-
-  var title = 'Yay a message.';  
-  var body = 'We have received a push message.';  
-  var icon = '/images/icon-192x192.png';  
-  var tag = 'simple-push-demo-notification-tag';
-
+  // Since there is no payload data with the first version  
+  // of push messages, we'll grab some data from  
+  // an API and use it to populate a notification  
   event.waitUntil(  
-    self.registration.showNotification(title, {  
-      body: body,  
-      icon: icon,  
-      tag: tag  
+    fetch(SOME_API_ENDPOINT).then(function(response) {  
+      if (response.status !== 200) {  
+        // Either show a message to the user explaining the error  
+        // or enter a generic message and handle the
+        // onnotificationclick event to direct the user to a web page  
+        console.log('Looks like there was a problem. Status Code: ' + response.status);  
+        throw new Error();  
+      }
+
+      // Examine the text in the response  
+      return response.json().then(function(data) {  
+        if (data.error || !data.notification) {  
+          console.error('The API returned an error.', data.error);  
+          throw new Error();  
+        }  
+
+        var title = data.notification.title;  
+        var message = data.notification.message;  
+        var icon = data.notification.icon;  
+        var notificationTag = data.notification.tag;
+
+        return self.registration.showNotification(title, {  
+          body: message,  
+          icon: icon,  
+          tag: notificationTag  
+        });  
+      });  
+    }).catch(function(err) {  
+      console.error('Unable to retrieve data', err);
+
+      var title = 'An error occurred';
+      var message = 'We were unable to get the information for this push message';  
+      var icon = URL_TO_DEFAULT_ICON;  
+      var notificationTag = 'notification-error';  
+      return self.registration.showNotification(title, {  
+          body: message,  
+          icon: icon,  
+          tag: notificationTag  
+        });  
     })  
   );  
+});
+
+self.addEventListener('notificationclick', function(event) {  
+  console.log('On notification click: ', event.notification.tag);  
+  // Android doesn't close the notification when you click on it  
+  // See: http://crbug.com/463146  
+  event.notification.close();
+
+  // This looks to see if the current is already open and  
+  // focuses if it is  
+  event.waitUntil(
+    clients.matchAll({  
+      type: "window"  
+    })
+    .then(function(clientList) {  
+      for (var i = 0; i < clientList.length; i++) {  
+        var client = clientList[i];  
+        if (client.url == '/' && 'focus' in client)  
+          return client.focus();  
+      }  
+      if (clients.openWindow) {
+        return clients.openWindow('/');  
+      }
+    })
+  );
 });
