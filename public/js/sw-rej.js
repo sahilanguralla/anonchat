@@ -114,6 +114,7 @@ $(function() {
   }
 
   function unsubscribe() {
+    console.log("started subscribing", isPushEnabled);
     var pushButton = document.querySelector('#push-notification-toggler');
     // pushButton.disabled = true;
 
@@ -123,6 +124,7 @@ $(function() {
       serviceWorkerRegistration.pushManager.getSubscription().then(
         function(pushSubscription) {
           // Check we have a subscription to unsubscribe  
+          console.log("pushSubscription", pushSubscription);
           if (!pushSubscription) {
             // No subscription object, so set the state  
             // to allow the user to subscribe to push  
