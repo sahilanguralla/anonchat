@@ -33,10 +33,6 @@ module.exports = function(io, models, utils) {
 			// broadcast the updated list to all joined users
 			get_users = io.of('/messages').clients(data.room_number);
 
-			// remove multiple sessions of same user to prevent repetition in list
-			var users = utils.unique(user, function(user1, user2) {
-				return user1.name > user2.name;
-			});
 
 			var users_list = [];
 			for (var i in get_users) {
@@ -46,6 +42,11 @@ module.exports = function(io, models, utils) {
 					profile_pic: get_users[i].profile_pic
 				});
 			}
+			// remove multiple sessions of same user to prevent repetition in list
+			users_list = utils.unique(users_list, function(user1, user2) {
+				return user1.name > user2.name;
+			});
+			
 			socket.broadcast.to(data.room_number).emit("new_user", JSON.stringify(users_list));
 			socket.to(data.room_number).emit("new_user", JSON.stringify(users_list));
 			socket.to(data.room_number).emit("new_message", JSON.stringify(room.messages));
