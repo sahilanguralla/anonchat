@@ -173,11 +173,11 @@ $(function() {
 				})
 			}).then(function(response) {
 				if (response.ok) {
-					resolve(.then(function(data) {
+					resolve(response.json().then(function(data) {
 							return data;
 						}));
 				} else {
-					reject(.then(function(data) {
+					reject(response.json().then(function(data) {
 							return data;
 						}));
 				}
@@ -200,7 +200,7 @@ $(function() {
 							return data;
 						}));
 					} else {
-						reject(.then(function(data) {
+						reject(response.json().then(function(data) {
 							return data;
 						}));
 					}
