@@ -61,7 +61,7 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 			// pushing joined members to database
 			Room.findByIdAndUpdate(
 				data.room_number, {
-					$push: {
+					$addToSet: {
 						"users": {
 							user_id: data.user_id,
 							username: data.username,
