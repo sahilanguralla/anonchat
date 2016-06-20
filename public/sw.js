@@ -8,9 +8,9 @@ self.addEventListener('push', function(event) {
     registration.pushManager.getSubscription().then(function(subscription) {
       console.log("got subscription id: ", subscription.endpoint);
       var sub_url = subscription.endpoint.split('/');
-      sub_url[sub_url.length - 1];
+      var subscription.endpoint = sub_url[sub_url.length - 1];
 
-      fetch("/notifications/" + subscription.endpoint, {
+      fetch("/notifications/" + subscription_endpoint, {
         method: "GET"
       }).then(function(response) {
         if (response.status !== 200) {
