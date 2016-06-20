@@ -99,12 +99,14 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 					if (!err && room) {
 						socket.broadcast.to(data.room_number).emit("new_message", JSON.stringify([data]));
 						
+						data.room_name = room.room_name;
+						
 						var users = [];
 						room.users.forEach(function(user) {
 							if(user.user_id == data.user_id) return;
 							users.push(mongoose.Types.ObjectId(user.user_id));
 						});
-
+						
 						User.update({
 							_id: {
 								$in: users
@@ -123,26 +125,6 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 							safe: true,
 							upsert: true
 						}, function(err, update) {
-						// 	console.log("users found for notifications:", users)
-						// })
-						// User.update({
-						// 	id: {
-						// 		$in: users
-						// 	}, 
-						// 	subscription_endpoint: {
-						// 			$exists: true
-						// 	}
-						// }, {
-						// 	$push: {
-						// 		"notifications": {
-						// 			type: "new_message",
-						// 			data: data
-						// 		}
-						// 	}
-						// }, {
-						// 	safe: true,
-						// 	upsert: true
-						// }, function(err, users) {
 							console.log("Pushed message to subscribed users' notifications:", users);
 
 							if(!err) {

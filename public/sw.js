@@ -38,7 +38,7 @@ self.addEventListener('push', function(event) {
               notification = notification.data;
               promises.push(self.registration.showNotification(notification.room_name, {
                 body: notification.username + ": " + notification.message,
-                icon: "",
+                icon: "https://tbt-anonchat.herokuapp.com/icons/icon-64x64.png",
                 tag: notification.room_number
               }));
             }
