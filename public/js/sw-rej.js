@@ -167,7 +167,7 @@ $(function() {
 
 			$.post('/subscribe', {
 					user_id: user_id,
-					endpoint: endpoint
+					endpoint: subscription.endpoint
 			}).done(function(response) {
 				resolve(response);
 			}).fail(function(response) {
@@ -182,7 +182,7 @@ $(function() {
 
 			$.post('/subscribe', {
 					user_id: user_id,
-					endpoint: endpoint
+					endpoint: subscription.endpoint
 			}).done(function(response) {
 				resolve(response.data);
 			}).fail(function() {
@@ -190,7 +190,7 @@ $(function() {
 					return data;
 				}));
 			});
-			
+
 		});
 	}
 });
