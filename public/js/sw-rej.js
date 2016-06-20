@@ -168,9 +168,9 @@ $(function() {
 			$.post('/subscribe', {
 					user_id: user_id,
 					subscription: subscription
-			}).then(function(response) {
+			}).done(function(response) {
 				resolve(response);
-			}, function(response) {
+			}).fail(function(response) {
 				reject(response);
 			});
 		});
