@@ -95,11 +95,14 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 					upsert: true
 				},
 				function(err, room) {
+					console.log("Pushed message to room": room);
 					if (!err && room) {
 						socket.broadcast.to(data.room_number).emit("new_message", JSON.stringify([data]));
 						
-						var users = room.users.map(function(user) {
-							return mongoose.Types.ObjectId(user.user_id);
+						var users = [];
+						room.users.forEach(function(user) {
+							if(user.user_id == user_id) return;
+							users.push(mongoose.Types.ObjectId(user.user_id));
 						});
 
 						User.update({
@@ -120,7 +123,9 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 								}
 							}
 						}, function(err, users) {
-							if(!err && users ) {
+							console.log("Pushed message to subscribed users' notifications:": users);
+
+							if(!err && users) {
 								var regTokens = users.map(function(user) {
 									return user.subscription_endpoint;
 								});
@@ -141,7 +146,7 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 					} else {
 						socket.to(data.room_number).emit("error", {
 							"type": "new_message",
-							"message": "Unable to send message"
+							"message": "Unable to send message. This might be due to invalid room."
 						});
 					}
 
