@@ -102,11 +102,11 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 						var users = [];
 						room.users.forEach(function(user) {
 							if(user.user_id == data.user_id) return;
-							users.push(user.user_id);
+							users.push(mongoose.Types.ObjectId(user.user_id));
 						});
 
 						User.find({
-							id: {
+							_id: {
 								$in: users
 							}, 
 							subscription_endpoint: {
