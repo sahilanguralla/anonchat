@@ -170,13 +170,13 @@ $(function() {
 				body: JSON.stringify({
 					user_id: user_id,
 					subscription: subscription
-				}).then(function(response) {
-					if(response.ok){
-						resolve(response.json());
-					} else {
-						reject(response.error());
-					}
 				})
+			}).then(function(response) {
+				if (response.ok) {
+					resolve(response.json());
+				} else {
+					reject(response.error());
+				}
 			});
 		});
 	}
@@ -191,7 +191,7 @@ $(function() {
 					user_id: user_id,
 					subscription: subscription
 				}).then(function(response) {
-					if(response.ok){
+					if (response.ok) {
 						resolve(response.json().then(function(data) {
 							return data;
 						}));
