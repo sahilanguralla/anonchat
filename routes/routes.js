@@ -87,10 +87,10 @@ module.exports = function(express, app, passport, config, models) {
 			});
 	});
 
-	router.post('/notifications', function(req, res, next) {
+	router.post('/notifications/:subscription_endpoint', function(req, res, next) {
 		console.log("started fetching notifications for user", req.body);
-		var data = req.body;
-		models.User.findById(data.user_id, function(err, user) {
+		var data = req.params;
+		models.User.findOne({subscription_endpoint: data.subscription_endpoint}, function(err, user) {
 			if (err) next(err);
 			res.setHeader('Content-Type', 'application/json');
 			res.send(JSON.stringify({

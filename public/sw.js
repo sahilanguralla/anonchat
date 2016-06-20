@@ -7,6 +7,9 @@ self.addEventListener('push', function(event) {
   event.waitUntil(
     registration.pushManager.getSubscription().then(function(subscription) {
       console.log("got subscription id: ", subscription.endpoint);
+      var sub_url = subscription.endpoint.split('/');
+      sub_url[sub_url.length - 1];
+
       fetch("/notifications/" + subscription.endpoint, {
         method: "GET"
       }).then(function(response) {
@@ -44,7 +47,7 @@ self.addEventListener('push', function(event) {
 
         var title = 'An error occurred';
         var message = 'We were unable to get the information for this push message';
-        var icon = URL_TO_DEFAULT_ICON;
+        var icon = "";
         var notificationTag = 'notification-error';
         return self.registration.showNotification(title, {
           body: message,
