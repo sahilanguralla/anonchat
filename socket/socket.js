@@ -106,11 +106,13 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 						});
 
 						User.update({
-							$and: [{
-								id: {
-									$in: users,
+							id: {
+								$in: users,
+							}, {
+								subscription_endpoint: {
+									$exists: true
 								}
-							}]
+							}
 						}, {
 							$push: {
 								"notifications": {
