@@ -30,15 +30,18 @@ self.addEventListener('push', function(event) {
             throw new Error();
           }
 
-          notifications = data.data;
+          notifications = data.notifications;
         }).then(function() {
           var promises = [];
           notifications.forEach(function(notification) {
-            promises.push(self.registration.showNotification(notification.room_name, {
-              body: notification.username + ": " + notification.message,
-              icon: "",
-              tag: notification.room_number
-            }));
+            if("new_message" == notification.type) {
+              notification = notification.data;
+              promises.push(self.registration.showNotification(notification.room_name, {
+                body: notification.username + ": " + notification.message,
+                icon: "",
+                tag: notification.room_number
+              }));
+            }
           })
           return Promise.all(promises);
         });
