@@ -168,7 +168,7 @@ $(function() {
 			fetch('/subscribe', {
 				method: 'post',
 				body: JSON.stringify({
-					user_id: user_id
+					user_id: user_id,
 					subscription: subscription
 				}).then(function(response) {
 					if(response.ok){
