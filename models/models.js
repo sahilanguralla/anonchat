@@ -6,7 +6,7 @@ module.exports = function(mongoose) {
 				fullName: String,
 				email: String,
 				profilePic: String,
-				subscription_endpoint: String
+				subscription_endpoint: String,
 				notifications: Array
 			});
 			return mongoose.model("users", userSchema);
