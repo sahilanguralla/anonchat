@@ -7,11 +7,8 @@ self.addEventListener('push', function(event) {
   event.waitUntil(
     registration.pushManager.getSubscription().then(function(subscription) {
       console.log("got subscription id: ", subscription.endpoint);
-      fetch("/notifications", {
-        method: "POST",
-        body: JSON.stringify({
-          subscription: subscription
-        })
+      fetch("/notifications/" + subscription.endpoint, {
+        method: "GET"
       }).then(function(response) {
         if (response.status !== 200) {
           // Either show a message to the user explaining the error  
