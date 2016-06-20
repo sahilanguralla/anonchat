@@ -8,7 +8,7 @@ self.addEventListener('push', function(event) {
     registration.pushManager.getSubscription().then(function(subscription) {
       console.log("got subscription id: ", subscription.endpoint);
       var sub_url = subscription.endpoint.split('/');
-      var subscription.endpoint = sub_url[sub_url.length - 1];
+      var subscription_endpoint = sub_url[sub_url.length - 1];
 
       fetch("/notifications/" + subscription_endpoint, {
         method: "GET"
