@@ -33,7 +33,7 @@ self.addEventListener('push', function(event) {
           notifications = data.data;
         }).then(function() {
           var promises = [];
-          room_notifications.forEach(function(notification) {
+          notifications.forEach(function(notification) {
             promises.push(self.registration.showNotification(notification.room_name, {
               body: notification.username + ": " + notification.message,
               icon: "",

@@ -73,6 +73,7 @@ module.exports = function(express, app, passport, config, models) {
 			}, {
 				$unset: {
 					subscription_endpoint: 1
+					notifications: 1
 				}
 			}, {
 				safe: true,
