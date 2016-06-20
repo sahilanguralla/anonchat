@@ -165,13 +165,23 @@ $(function() {
 		return new Promise(function(resolve, reject) {
 			// do a thing, possibly async, then…
 
-			$.post('/subscribe', {
-					user_id: user_id,
-					endpoint: endpoint
-			}).done(function(response) {
-				resolve(response);
-			}).fail(function(response) {
-				reject(response);
+			var form_data = new FormData();
+	    form_data.append("user_id", user_id);
+	    form_data.append("endpoint", subscription.endpoint);
+
+			fetch('/subscribe', {
+				method: 'post',
+				body: form_data
+			}).then(function(response) {
+				if (response.ok) {
+					resolve(response.json().then(function(data) {
+							return data;
+						}));
+				} else {
+					reject(response.json().then(function(data) {
+							return data;
+						}));
+				}
 			});
 		});
 	}
