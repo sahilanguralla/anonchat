@@ -123,7 +123,7 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 								}
 							}
 						}, function(err, users) {
-							console.log("Pushed message to subscribed users' notifications:": users);
+							console.log("Pushed message to subscribed users' notifications:", users);
 
 							if(!err && users) {
 								var regTokens = users.map(function(user) {
