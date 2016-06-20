@@ -173,9 +173,13 @@ $(function() {
 				})
 			}).then(function(response) {
 				if (response.ok) {
-					resolve(response.json());
+					resolve(.then(function(data) {
+							return data;
+						}));
 				} else {
-					reject(response.error());
+					reject(.then(function(data) {
+							return data;
+						}));
 				}
 			});
 		});
@@ -196,8 +200,8 @@ $(function() {
 							return data;
 						}));
 					} else {
-						reject(response.error().then(function(error) {
-							return error;
+						reject(.then(function(data) {
+							return data;
 						}));
 					}
 				})
