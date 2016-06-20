@@ -36,7 +36,7 @@ self.addEventListener('push', function(event) {
           notifications.forEach(function(notification) {
             if("new_message" == notification.type) {
               notification = notification.data;
-              promises.push(self.registration.showNotification(notification.room_name, {
+              promises.push(self.registration.showNotification("AnonChat Room: " + notification.room_name, {
                 body: notification.username + ": " + notification.message,
                 icon: "https://tbt-anonchat.herokuapp.com/icons/icon-64x64.png",
                 tag: notification.room_number
