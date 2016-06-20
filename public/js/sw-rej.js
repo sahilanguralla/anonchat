@@ -186,9 +186,7 @@ $(function() {
 			}).done(function(response) {
 				resolve(response.data);
 			}).fail(function() {
-				reject(response.json().then(function(data) {
-					return data;
-				}));
+				reject(response.error);
 			});
 
 		});
