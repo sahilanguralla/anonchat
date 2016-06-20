@@ -1,4 +1,4 @@
-module.exports = function(io, gcm, models, utils, config) {
+module.exports = function(io, mongoose, gcm, models, utils, config) {
 	var Room = models.Room;
 	var User = models.User;
 	var chatrooms = io.of('/roomlist').on('connection', function(socket) {

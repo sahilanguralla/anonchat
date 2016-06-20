@@ -56,7 +56,7 @@ require('./routes/routes.js')(express, app, passport, config, models);
 app.set('port', process.env.PORT || 3000);
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-require('./socket/socket.js')(io, gcm, models, utils, config);
+require('./socket/socket.js')(io, mongoose, gcm, models, utils, config);
 
 server.listen(app.get('port'), function() {
 	console.log("Vendetta's Chat Engine serving silently at: " + app.get('port'));
