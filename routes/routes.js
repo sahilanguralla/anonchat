@@ -50,7 +50,7 @@ module.exports = function(express, app, passport, config, models) {
 		console.log("subscribe request body", req.body);
 		var data = req.body;
 		models.User.findByIdAndUpdate(data.user_id, {
-			subscription_endpoint: data.subscription_endpoint
+			$set: {subscription_endpoint: data.subscription_endpoint}
 		}, {
 			safe: true,
 			upsert: true
