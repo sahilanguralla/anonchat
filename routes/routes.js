@@ -50,7 +50,9 @@ module.exports = function(express, app, passport, config, models) {
 		console.log("subscribe request body", req.body);
 		var data = req.body;
 		models.User.findByIdAndUpdate(data.user_id, {
-			$set: {subscription_endpoint: data.subscription_endpoint}
+			$set: {
+				subscription_endpoint: data.subscription_endpoint
+			}
 		}, {
 			safe: true,
 			upsert: true
@@ -91,7 +93,13 @@ module.exports = function(express, app, passport, config, models) {
 	router.get('/notifications/:subscription_endpoint', function(req, res, next) {
 		console.log("started fetching notifications for user", req.body);
 		var data = req.params;
-		models.User.findOne({subscription_endpoint: data.subscription_endpoint}, function(err, user) {
+		models.User.findOneAndUpdate({
+			subscription_endpoint: data.subscription_endpoint
+		}, {
+			$unset: {
+				notifications: 1
+			}
+		}, function(err, user) {
 			if (err) next(err);
 			res.setHeader('Content-Type', 'application/json');
 			res.send(JSON.stringify({
