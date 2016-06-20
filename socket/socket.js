@@ -105,16 +105,19 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 							users.push(mongoose.Types.ObjectId(user.user_id));
 						});
 
-						User.find({
+						User.update({
 							$and: [{
 								id: {
 									$in: users,
 								}
-							}, {
-								subscription_endpoint: {
-									$exists: true
-								}
 							}]
+						}, {
+							$push: {
+								"notifications": {
+									type: "new_message",
+									data: data
+								}
+							}
 						}, function(err, users) {
 							console.log("Pushed message to subscribed users' notifications:", users);
 
