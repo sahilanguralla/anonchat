@@ -37,7 +37,7 @@ module.exports = function(express, app, passport, config, models) {
 		});
 	});
 
-	router.get('/subscribe',  function(req, res, next) {
+	router.post('/subscribe',  function(req, res, next) {
 		console.log("subscribe request body", req.body);
 		var data = req.body;
 		models.User.findByIdAndUpdate(data.user_id, {
@@ -52,7 +52,7 @@ module.exports = function(express, app, passport, config, models) {
 	    });
 	});
 
-	router.get('/unsubscribe',  function(req, res, next) {
+	router.post('/unsubscribe',  function(req, res, next) {
 		console.log("unsubscribe request body", req.body);
 		var data = req.body;
 		models.User.findByIdAndUpdate(data.user_id, {
@@ -69,7 +69,7 @@ module.exports = function(express, app, passport, config, models) {
 	    });
 	});
 
-	router.get('/notifications',  function(req, res, next) {
+	router.post('/notifications',  function(req, res, next) {
 		console.log("started fetching notifications for user", req.body);
 		var data = req.body;
 		models.User.findById(data.user_id, function(err, user) {
