@@ -95,7 +95,7 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 					upsert: true
 				},
 				function(err, room) {
-					console.log("Pushed message to room": room);
+					console.log("Pushed message to room:", room);
 					if (!err && room) {
 						socket.broadcast.to(data.room_number).emit("new_message", JSON.stringify([data]));
 						
