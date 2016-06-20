@@ -87,7 +87,7 @@ module.exports = function(express, app, passport, config, models) {
 			});
 	});
 
-	router.post('/notifications/:subscription_endpoint', function(req, res, next) {
+	router.get('/notifications/:subscription_endpoint', function(req, res, next) {
 		console.log("started fetching notifications for user", req.body);
 		var data = req.params;
 		models.User.findOne({subscription_endpoint: data.subscription_endpoint}, function(err, user) {
