@@ -165,22 +165,13 @@ $(function() {
 		return new Promise(function(resolve, reject) {
 			// do a thing, possibly async, then…
 
-			fetch('/subscribe', {
-				method: 'post',
-				body: JSON.stringify({
+			$.post('/subscribe', {
 					user_id: user_id,
 					subscription: subscription
-				})
 			}).then(function(response) {
-				if (response.ok) {
-					resolve(response.json().then(function(data) {
-							return data;
-						}));
-				} else {
-					reject(response.json().then(function(data) {
-							return data;
-						}));
-				}
+				resolve(response);
+			}, function(response) {
+				reject(response);
 			});
 		});
 	}
