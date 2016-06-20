@@ -167,7 +167,7 @@ $(function() {
 
 			$.post('/subscribe', {
 					user_id: user_id,
-					subscription: subscription
+					endpoint: endpoint
 			}).done(function(response) {
 				resolve(response);
 			}).fail(function(response) {
