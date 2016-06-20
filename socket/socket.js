@@ -73,7 +73,8 @@ module.exports = function(io, gcm, models, utils, config) {
 				},
 				function(err, room) {
 					console.log("Room found:", room);
-					socket.to(data.room_number).emit("new_message", JSON.stringify(room.messages));
+					if(!err)
+						socket.to(data.room_number).emit("new_message", JSON.stringify(room.messages));
 				});
 		});
 
