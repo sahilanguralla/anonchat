@@ -118,6 +118,9 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 									data: data
 								}
 							}
+						}, {
+							safe: true,
+							upsert: true
 						}, function(err, users) {
 							console.log("Pushed message to subscribed users' notifications:", users);
 
