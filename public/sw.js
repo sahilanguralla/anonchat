@@ -6,7 +6,7 @@ self.addEventListener('push', function(event) {
   console.log(event);
   event.waitUntil(
     registration.pushManager.getSubscription().then(function(subscription) {
-      console.log("got subscription id: ", subscription.endpoint)
+      console.log("got subscription id: ", subscription.endpoint);
       fetch("/notifications", {
         method: "POST",
         body: JSON.stringify({
@@ -42,8 +42,6 @@ self.addEventListener('push', function(event) {
           })
           return Promise.all(promises);
         });
-
-
       }).catch(function(err) {
         console.error('Unable to retrieve data', err);
 

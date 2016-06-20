@@ -22,6 +22,7 @@ $(function() {
 
   socket.on("room_update", function(data) {
     var rooms = JSON.parse(data);
+    console.log("Rooms received:", data);
     $("#room-list").empty();
     $.each(rooms, function() {
       var room = $('<div class="item"><i class="ui avatar image comments outline icon"></i><div class="content"><a class="header"></a></div></div>');

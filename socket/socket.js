@@ -16,6 +16,7 @@ module.exports = function(io, gcm, models, utils, config) {
 				Room.find({}).sort({
 					id: -1
 				}).exec(function(err, rooms) {
+					console.log("found rooms to be sent via socket", rooms);
 					socket.broadcast.emit('room_update', JSON.stringify(rooms));
 					socket.emit('room_update', JSON.stringify(rooms));
 				});
