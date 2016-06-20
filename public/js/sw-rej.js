@@ -180,12 +180,12 @@ $(function() {
 		return new Promise(function(resolve, reject) {
 			// do a thing, possibly async, then…
 
-			$.post('/subscribe', {
+			$.post('/unsubscribe', {
 					user_id: user_id,
 					subscription_endpoint: subscription.endpoint
 			}).done(function(response) {
 				resolve(response.data);
-			}).fail(function() {
+			}).fail(function(response) {
 				reject(response.error);
 			});
 
