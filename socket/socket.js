@@ -102,7 +102,7 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 						var users = [];
 						room.users.forEach(function(user) {
 							if(user.user_id == data.user_id) return;
-							users.push(mongoose.Types.ObjectId(user.user_id));
+							users.push(user.user_id);
 						});
 
 						User.update({
