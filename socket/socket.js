@@ -105,7 +105,7 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 							users.push(mongoose.Types.ObjectId(user.user_id));
 						});
 
-						User.findAndModify({
+						User.update({
 							_id: {
 								$in: users
 							}, 
@@ -122,7 +122,7 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 						}, {
 							safe: true,
 							upsert: true
-						}, function(err, users) {
+						}, function(err, update) {
 						// 	console.log("users found for notifications:", users)
 						// })
 						// User.update({
@@ -145,22 +145,35 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 						// }, function(err, users) {
 							console.log("Pushed message to subscribed users' notifications:", users);
 
-							if(!err && users) {
-								var regTokens = users.map(function(user) {
-									return user.subscription_endpoint;
-								});
- 
-								var message = new gcm.Message({
-								    data: data
-								});
-								 
-								// Set up the sender with you API key, prepare your recipients' registration tokens. 
-								var sender = new gcm.Sender(config.gcm.api_key);
-								 
-								sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-									if(err) console.error(err);
-									else console.log(response);
-								});
+							if(!err) {
+								User.find({
+									_id: {
+										$in: users
+									}, 
+									subscription_endpoint: {
+											$exists: true
+									}
+								}, function(err, users) {
+									console.log("found subscribed users' for notifications:", users);
+									if(!err && users)
+										var regTokens = users.map(function(user) {
+											return user.subscription_endpoint;
+										});
+		 
+										var message = new gcm.Message({
+										    data: data
+										});
+										 
+										// Set up the sender with you API key, prepare your recipients' registration tokens. 
+										var sender = new gcm.Sender(config.gcm.api_key);
+										 
+										sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+											console.log("Notification pushed to users:", err, response);
+											if(err) console.error(err);
+											else console.log(response);
+										});
+									}
+								})
 							}
 						});
 					} else {
