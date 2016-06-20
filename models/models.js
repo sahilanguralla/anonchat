@@ -9,6 +9,9 @@ module.exports = function(mongoose) {
 				subscription_endpoint: String,
 				notifications: Array
 			});
+			userSchema.statics.findAndModify = function (query, sort, doc, options, callback) {
+			  return this.collection.findAndModify(query, sort, doc, options, callback);
+			};
 			return mongoose.model("users", userSchema);
 		}(),
 		Room: function() {
@@ -17,6 +20,9 @@ module.exports = function(mongoose) {
 				users: Array,
 				messages: Array
 			});
+			roomSchema.statics.findAndModify = function (query, sort, doc, options, callback) {
+			  return this.collection.findAndModify(query, sort, doc, options, callback);
+			};
 			return mongoose.model("rooms", roomSchema);
 		}(),
 		Message: function() {
@@ -25,6 +31,9 @@ module.exports = function(mongoose) {
 				user_id: String,
 				room_id: String
 			});
+			messageSchema.statics.findAndModify = function (query, sort, doc, options, callback) {
+			  return this.collection.findAndModify(query, sort, doc, options, callback);
+			};
 			return mongoose.model("messages", messageSchema);
 		}()
 	};
