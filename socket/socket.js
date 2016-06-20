@@ -1,6 +1,6 @@
 module.exports = function(io, gcm, models, utils, config) {
 	var Room = models.Room;
-	var Room = models.User;
+	var User = models.User;
 	var chatrooms = io.of('/roomlist').on('connection', function(socket) {
 		console.log('Socket Connection established on Server Side!');
 		Room.find({}).sort({
