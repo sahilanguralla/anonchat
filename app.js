@@ -2,6 +2,7 @@ var express = require('express'),
 	app = express(),
 	path = require('path'),
 	cookieParser = require('cookie-parser'),
+	bodyParser = require('body-parser'),
 	session = require('express-session'),
 	config = require('./config/config.js'),
 	ConnectMongo = require('connect-mongo')(session),
@@ -22,6 +23,10 @@ app.set('view engine', 'html');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
 
 // detecting the environment
 var env = process.env.NODE_ENV || "development";

@@ -9,6 +9,7 @@
   "author": "Sahil",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "connect-mongo": "1.2.0",
     "cookie-parser": "1.4.2",
     "express": "4.13.4",
