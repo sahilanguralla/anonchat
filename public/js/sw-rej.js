@@ -165,9 +165,11 @@ $(function() {
 		return new Promise(function(resolve, reject) {
 			// do a thing, possibly async, then…
 
+			var sub_url = subscription.endpoint.split('/');
+			var subscription_endpoint = sub_url[sub_url.length - 1];
 			$.post('/subscribe', {
 					user_id: user_id,
-					subscription_endpoint: subscription.endpoint
+					subscription_endpoint: subscription_endpoint
 			}).done(function(response) {
 				resolve(response);
 			}).fail(function(response) {
@@ -179,10 +181,13 @@ $(function() {
 	function sendUnsubscriptionToServer(subscription) {
 		return new Promise(function(resolve, reject) {
 			// do a thing, possibly async, then…
+			
+			var sub_url = subscription.endpoint.split('/');
+			var subscription_endpoint = sub_url[sub_url.length - 1];
 
 			$.post('/unsubscribe', {
 					user_id: user_id,
-					subscription_endpoint: subscription.endpoint
+					subscription_endpoint: subscription_endpoint
 			}).done(function(response) {
 				resolve(response.data);
 			}).fail(function(response) {
