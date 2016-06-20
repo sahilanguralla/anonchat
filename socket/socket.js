@@ -155,7 +155,7 @@ module.exports = function(io, mongoose, gcm, models, utils, config) {
 									}
 								}, function(err, users) {
 									console.log("found subscribed users' for notifications:", users);
-									if(!err && users)
+									if(!err && users) {
 										var regTokens = users.map(function(user) {
 											return user.subscription_endpoint;
 										});
