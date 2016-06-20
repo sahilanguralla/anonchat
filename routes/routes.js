@@ -27,18 +27,61 @@ module.exports = function(express, app, passport, config, models) {
 		});
 	});
 
-	function getRoom(room_id, callback) {
-		models.Room.findById(room_id, callback);
-	}
-
 	router.get('/room/:id', authFilter, function(req, res, next) {
-		getRoom(req.params.id, function(err, room) {
+		models.Room.findById(req.params.id, function(err, room) {
 			if(err || !room) {
 				res.redirect('/chatrooms');
 			} else {
 				res.render('room', { user: req.user, room_number:req.params.id, room_name: room.room_name, config:config });
 			}
 		});
+	});
+
+	router.get('/subscribe',  function(req, res, next) {
+		console.log("subscribe request body", req.body);
+		var data = req.body;
+		models.User.findByIdAndUpdate(data.user_id, {
+			subscription_endpoint: data.subscription.endpoint
+		}, {
+			safe: true,
+			upsert: true
+		}, function(err, subscription) {
+			if(err) next(err);
+			res.setHeader('Content-Type', 'application/json');
+	    	res.send(JSON.stringify(subscription));
+	    });
+	});
+
+	router.get('/unsubscribe',  function(req, res, next) {
+		console.log("unsubscribe request body", req.body);
+		var data = req.body;
+		models.User.findByIdAndUpdate(data.user_id, {
+			$unset: {subscription_endpoint: 1 }
+		}, {
+			safe: true,
+			upsert: true
+		}, function(err, subscription) {
+			if(err) next(err);
+			res.setHeader('Content-Type', 'application/json');
+	    	res.send(JSON.stringify({
+	    		message: "Successfully unsubscribed!"
+	    	}));
+	    });
+	});
+
+	router.get('/notifications',  function(req, res, next) {
+		console.log("started fetching notifications for user", req.body);
+		var data = req.body;
+		models.User.findById(data.user_id, function(err, user) {
+			if(err) next(err);
+			res.setHeader('Content-Type', 'application/json');
+	    	res.send(JSON.stringify({
+	    		notifications: user.notifications
+	    	}));
+	    	user.update({
+	    		$unset: {notifications: 1 }
+	    	});
+	    });
 	});
 
 	router.get('/logout', function(req, res, next) {

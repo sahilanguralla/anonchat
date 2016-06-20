@@ -5,7 +5,9 @@ module.exports = function(mongoose) {
 				profileID: String,
 				fullName: String,
 				email: String,
-				profilePic: String
+				profilePic: String,
+				subscription_endpoint: String
+				notifications: Array
 			});
 			return mongoose.model("users", userSchema);
 		}(),

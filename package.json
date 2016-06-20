@@ -1,22 +1,23 @@
 {
-	"name": "anonchat",
-	"version": "1.0.0",
-	"description": "A MultiRoom Chat Service based on JS",
-	"main": "app.js",
-	"scripts": {
-		"start": "node app.js"
-	},
-	"author": "Sahil",
-	"license": "ISC",
-	"dependencies": {
-		"connect-mongo": "1.2.0",
-		"cookie-parser": "1.4.2",
-		"express": "4.13.4",
-		"express-session": "^1.x.x",
-		"hogan-express": "0.5.2",
-		"mongoose": "4.1.9",
-		"passport": "0.3.2",
-		"passport-facebook": "2.1.1",
-		"socket.io": "0.9.17"
-	}
+  "name": "anonchat",
+  "version": "1.0.0",
+  "description": "A MultiRoom Chat Service based on JS",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Sahil",
+  "license": "ISC",
+  "dependencies": {
+    "connect-mongo": "1.2.0",
+    "cookie-parser": "1.4.2",
+    "express": "4.13.4",
+    "express-session": "^1.x.x",
+    "hogan-express": "0.5.2",
+    "mongoose": "4.1.9",
+    "node-gcm": "^0.14.3",
+    "passport": "0.3.2",
+    "passport-facebook": "2.1.1",
+    "socket.io": "0.9.17"
+  }
 }

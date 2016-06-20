@@ -6,5 +6,8 @@
 		"appSecret": "b0b2bb91459b2bf7466e515b384bdc46",
 		"callbackURL": "https://tbt-anonchat.herokuapp.com/auth/facebook/callback"
 	},
+	"gcm": {
+		"api_key": "AIzaSyAL0e54tjFVQQsLP-hM3aVuugKyc9p9-CQ"
+	},
 	"host": "tbt-anonchat.herokuapp.com"
 }

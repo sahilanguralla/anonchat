@@ -1,5 +1,6 @@
-module.exports = function(io, models, utils) {
+module.exports = function(io, gcm, models, utils, config) {
 	var Room = models.Room;
+	var Room = models.User;
 	var chatrooms = io.of('/roomlist').on('connection', function(socket) {
 		console.log('Socket Connection established on Server Side!');
 		Room.find({}).sort({
@@ -44,6 +45,7 @@ module.exports = function(io, models, utils) {
 				});
 			}
 
+
 			console.log("users_list before uniquing", users_list);
 			// remove multiple sessions of same user to prevent repetition in list
 			users_list = utils.unique(users_list, function(user1, user2) {
@@ -54,12 +56,27 @@ module.exports = function(io, models, utils) {
 
 			socket.broadcast.to(data.room_number).emit("new_user", JSON.stringify(users_list));
 			socket.to(data.room_number).emit("new_user", JSON.stringify(users_list));
-			
-			Room.findById(data.room_number, function(err, room) {
-				console.log("Room found:", room);
-				socket.to(data.room_number).emit("new_message", JSON.stringify(room.messages));
-			});
+
+			// pushing joined members to database
+			Room.findByIdAndUpdate(
+				data.room_number, {
+					$push: {
+						"users": {
+							user_id: data.user_id,
+							username: data.username,
+							profile_pic: data.profile_pic,
+						}
+					}
+				}, {
+					safe: true,
+					upsert: true
+				},
+				function(err, room) {
+					console.log("Room found:", room);
+					socket.to(data.room_number).emit("new_message", JSON.stringify(room.messages));
+				});
 		});
+
 		socket.on('new_message', function(data) {
 			Room.findByIdAndUpdate(
 				data.room_number, {
@@ -78,12 +95,54 @@ module.exports = function(io, models, utils) {
 				function(err, room) {
 					if (!err && room) {
 						socket.broadcast.to(data.room_number).emit("new_message", JSON.stringify([data]));
+						
+						var users = room.users.map(function(user) {
+							return mongoose.Types.ObjectId(user.user_id);
+						});
+
+						User.update({
+							$and: [{
+								_id: {
+									$in: users,
+								}
+							}, {
+								subscription_endpoint: {
+									$exists: true
+								}
+							}]
+						}, {
+							$push: {
+								"notifications": {
+									type: "new_message",
+									data: data
+								}
+							}
+						}, function(err, users) {
+							if(!err && users ) {
+								var regTokens = users.map(function(user) {
+									return user.subscription_endpoint;
+								});
+ 
+								var message = new gcm.Message({
+								    data: data
+								});
+								 
+								// Set up the sender with you API key, prepare your recipients' registration tokens. 
+								var sender = new gcm.Sender(config.gcm.api_key);
+								 
+								sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+									if(err) console.error(err);
+									else console.log(response);
+								});
+							}
+						});
 					} else {
 						socket.to(data.room_number).emit("error", {
 							"type": "new_message",
 							"message": "Unable to send message"
 						});
 					}
+
 				}
 			)
 		});
